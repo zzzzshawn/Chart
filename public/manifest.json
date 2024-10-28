@@ -20,8 +20,7 @@
       "resources": [
         "/react/index.js",
         "/react/index.css",
-        "logo.png",
-        "react.svg"
+        "vite.svg"
       ],
       "matches": ["https://chatgpt.com/*"]
     }
