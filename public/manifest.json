@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Chart",
+  "version": "1.0",
+  "description": "Minimap for chat gpt",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["/assets/initUI.js"],
+      "css": ["/assets/initCSS.css"],
+      "matches": ["https://chatgpt.com/*"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/react/index.js",
+        "/react/index.css",
+        "logo.png",
+        "react.svg"
+      ],
+      "matches": ["https://chatgpt.com/*"]
+    }
+  ],
+  "icons": {
+    "128": "vite.svg"
+  }
+}

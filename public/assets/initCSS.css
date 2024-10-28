@@ -1,0 +1,22 @@
+#root {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    height: 90vh;
+    width: 400px;
+    background: #000;
+    overflow: hidden;
+    z-index: 99999;
+    pointer-events: none;
+  }
+  
+  #root button {
+      all: initial;
+  }
+  
+  #root button:hover {
+    color: #2F2F2F;
+    background-color: #676767;
+    cursor: pointer;
+  }
+  
