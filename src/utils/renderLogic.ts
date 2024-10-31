@@ -70,7 +70,7 @@ export const queryAllChatElements = (): HTMLElement[] => {
     return allChat
 }
 
-
+// return 1st child of chatContainer or null
 export const queryNavElement = (): HTMLElement | null => {
     const chatContainer = queryChatContainer();
     if(!chatContainer || chatContainer.childNodes.length === 0) return null;
