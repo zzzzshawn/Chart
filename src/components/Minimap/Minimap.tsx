@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
+import Canvas from "./Canvas/Canvas";
+import { Overlay } from "./Overlay/Overlay";
 
 interface MiniMapProps {
   refreshMap: boolean;
@@ -46,15 +48,31 @@ const Minimap = ({
   }, [dragPos, scrollContainer, scale]);
 
   useEffect(() => {
-    const minimapContainer = minimapContainerRef.current;
+    const minimapContainer = minimapRef.current;
     if (!scrollContainer) return;
     if (!minimapContainer) return;
     scrollContainer.addEventListener("scroll", () =>
       onScroll(minimapContainer, scrollContainer, scale)
     );
-  }, [refreshMinimap, scale, scrollContainer]);
+  }, [refreshMap, scale, scrollContainer]);
 
-  return <div>Minimap</div>;
+  return (
+    <div
+      ref={minimapRef}
+      className="relative w-[100px] h-[90vh] bg-[#343442] pointer-events-auto shadow-lg overflow-y-scroll"
+    >
+      <Canvas
+        refreshCanvas={refreshMap}
+        chatContainer={chatContainer}
+        setScale={setScale}
+      />
+      <Overlay
+        refreshCanvas={refreshMap}
+        scrolContainer={scrollContainer}
+        scale={scale}
+      />
+    </div>
+  );
 };
 
 export default Minimap;

@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import { queryChatContainer } from "./utils/renderLogic";
+import Minimap from "./components/Minimap/Minimap";
 
 function App() {
   const [showMinimap, setShowMinimap] = useState<boolean>(false); // minimap trigger
@@ -11,45 +12,48 @@ function App() {
   const triggerRefresh = () => {
     setManualRefresh((prev) => !prev);
     chatContainer.current = queryChatContainer();
-    if(chatContainer.current){
+    if (chatContainer.current) {
       scrollContainer.current = chatContainer.current.parentElement;
     }
-  }
+  };
 
   useEffect(() => {
     // checks if there are changes to chat or if switched to a different chat
     addLocationObserver(() => {
       setTimeout(() => {
         const newChat = queryChatContainer();
-        if(chatContainer.current !== newChat){
+        if (chatContainer.current !== newChat) {
           triggerRefresh();
         }
         // to ensure accurate reference
         chatContainer.current = newChat;
-        if(newChat){
-          scrollContainer.current = newChat.parentElement
+        if (newChat) {
+          scrollContainer.current = newChat.parentElement;
         }
-
       }, 500); // delay execution to let chats load
-    })
+    });
   }, []);
 
   const toggleMap = () => {
     setShowMinimap((prev) => !prev);
     triggerRefresh();
-  }
+  };
 
   const refreshMap = () => {
     triggerRefresh();
-  }
-  
-  
+  };
 
   return (
-    <div className='bg-red-700 text-black'>
-      hey
+    <div className="bg-red-700 text-black">
+      {showMinimap && (
+        <Minimap
+          refreshMap={manualRefresh}
+          chatContainer={chatContainer.current}
+          scrollContainer={scrollContainer.current}
+        />
+      )}
     </div>
-  )
+  );
 }
 
 // observes child changes in document.body
@@ -58,13 +62,13 @@ const addLocationObserver = (callback: MutationCallback) => {
   const config = {
     attributes: false,
     childList: true,
-    subtree: false
-  }
+    subtree: false,
+  };
 
   const observer = new MutationObserver(callback);
 
   // start observing document.body with the given config
-  observer.observe(document.body, config)
-}
+  observer.observe(document.body, config);
+};
 
-export default App
+export default App;
