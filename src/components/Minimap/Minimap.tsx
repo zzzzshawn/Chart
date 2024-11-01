@@ -59,6 +59,7 @@ const Minimap = ({
 
 export default Minimap;
 
+// sets scroll for the main chat of gpt when i adjust scroll for minimap
 const onDrag = (
   mapContainer: HTMLElement,
   scrollContainer: HTMLElement,
@@ -74,6 +75,7 @@ const onDrag = (
   scrollContainer.scrollTo(0, newScrollPos);
 };
 
+// sets scroll for minimap when i scroll on main map
 const onScroll = (
   minimapContainer: HTMLElement,
   scrollContainer: HTMLElement,
