@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { queryChatContainer } from "./utils/renderLogic";
+import { queryAllChatElements, queryChatContainer, queryNavElement } from "./utils/renderLogic";
 import Minimap from "./components/Minimap/Minimap";
+import OptionsContainer from "./components/Options/OptionsContainer";
 
 function App() {
   const [showMinimap, setShowMinimap] = useState<boolean>(false); // minimap trigger
@@ -44,7 +45,14 @@ function App() {
   };
 
   return (
-    <div className="bg-red-700 text-black">
+    <div style={appContainerStyle}>
+      <OptionsContainer
+        onToggleMinimap={toggleMap}
+        onRefreshMinimap={refreshMap}
+        onNextChat={() => onNextChat(scrollContainer.current)}
+        onPreviousChat={() => onPreviousChat(scrollContainer.current)}
+        showMinimap={showMinimap}
+      />
       {showMinimap && (
         <Minimap
           refreshMap={manualRefresh}
@@ -55,6 +63,19 @@ function App() {
     </div>
   );
 }
+
+const appContainerStyle: React.CSSProperties = {
+  display: "flex",
+  height: "100%",
+  width: "100%",
+  overflow: "hidden",
+  justifyContent: "right",
+  pointerEvents: "none",
+  userSelect: "none",
+};
+
+export default App;
+
 
 // observes child changes in document.body
 const addLocationObserver = (callback: MutationCallback) => {
@@ -71,4 +92,41 @@ const addLocationObserver = (callback: MutationCallback) => {
   observer.observe(document.body, config);
 };
 
-export default App;
+
+
+const onNextChat = (scrollContainer: HTMLElement | null) => {
+  const navElement = queryNavElement();
+  if (!scrollContainer || !navElement) return;
+  const navHeight = navElement.offsetHeight;
+  const chatElements = queryAllChatElements();
+  const nextChats = chatElements.filter((element) => {
+    return element.getBoundingClientRect().top > 1.1 * navHeight;
+  });
+  if (nextChats.length === 0) return;
+  const firstNextChat = nextChats[0];
+  scrollContainer.scrollTo({
+    top:
+      scrollContainer.scrollTop +
+      firstNextChat.getBoundingClientRect().top -
+      navHeight,
+    behavior: "smooth",
+  });
+};
+const onPreviousChat = (scrollContainer: HTMLElement | null) => {
+  const navElement = queryNavElement();
+  if (!scrollContainer || !navElement) return;
+  const navHeight = navElement.offsetHeight;
+  const chatElements = queryAllChatElements();
+  const nextChats = chatElements.filter((element) => {
+    return element.getBoundingClientRect().top < navHeight;
+  });
+  if (nextChats.length === 0) return;
+  const firstNextChat = nextChats[nextChats.length - 1];
+  scrollContainer.scrollTo({
+    top:
+      scrollContainer.scrollTop +
+      firstNextChat.getBoundingClientRect().top -
+      navHeight,
+    behavior: "smooth",
+  });
+};

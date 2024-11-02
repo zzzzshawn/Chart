@@ -1,4 +1,4 @@
-import  { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { generateMapCanvas } from "../../../utils/renderLogic";
 
 interface CanvasProps {
@@ -17,28 +17,36 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer }: CanvasProps) => {
       const canvasContainer = canvasRef.current;
       if (!canvasContainer) return;
       if (canvasContainer.parentElement) {
-        // minimap conatiner is parent
+        // scroll to top to display message
         canvasContainer.parentElement.scrollTo(0, 0);
       }
       if (!chatContainer) {
-        canvasContainer.innerHTML = "No Chat";
+        canvasContainer.innerHTML =
+          "No chat detected, try refreshing the minimap";
         return;
       }
       isLoading.current = true;
+      // console.log("generating minmiap canvas...")
       canvasContainer.innerHTML = "loading..";
       const canvas = await generateMapCanvas(chatContainer);
       isLoading.current = false;
       canvasContainer.innerHTML = "";
       canvasContainer.appendChild(canvas);
 
-      const scale = canvasContainer.offsetWidth / canvas.offsetHeight;
+      const scale = canvasContainer.offsetWidth / canvas.offsetWidth;
       canvas.style.width = `${canvasContainer.offsetWidth}px`;
       canvas.style.height = `${scale * canvas.offsetHeight}px`;
-      setScale(scale);
+      setScale(canvas.offsetHeight / chatContainer.offsetHeight);
     })();
   }, [refreshCanvas, setScale, chatContainer]);
 
-  return <div ref={canvasRef} className="w-full text-white"></div>;
+  return <div ref={canvasRef} style={canvasContainerStyle}></div>;
+};
+
+const canvasContainerStyle: React.CSSProperties = {
+  width: "100%",
+  color: "white",
+  fontWeight: "bold",
 };
 
 export default memo(Canvas);

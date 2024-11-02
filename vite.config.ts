@@ -12,5 +12,5 @@ export default defineConfig({
         assetFileNames: 'react/[name].[ext]',
       }
     }
-  }
+  },
 })

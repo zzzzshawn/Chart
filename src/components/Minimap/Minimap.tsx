@@ -59,7 +59,7 @@ const Minimap = ({
   return (
     <div
       ref={minimapRef}
-      className="relative w-[100px] h-[90vh] bg-[#343442] pointer-events-auto shadow-lg overflow-y-scroll"
+      style={minimapContainerStyle}
     >
       <Canvas
         refreshCanvas={refreshMap}
@@ -73,6 +73,17 @@ const Minimap = ({
       />
     </div>
   );
+};
+
+const minimapContainerStyle: React.CSSProperties = {
+  position: "relative",
+  width: "80px",
+  height: "90vh",
+  backgroundColor: "#343442",
+  pointerEvents: "all",
+  boxShadow: "0 0 20px rgba(0, 0, 0, 1)",
+  overflowY: "scroll",
+  scrollbarWidth: "none",
 };
 
 export default Minimap;

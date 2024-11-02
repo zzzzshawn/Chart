@@ -29,16 +29,14 @@ export const Overlay = ({
   }, [scale, refreshCanvas, scrolContainer]);
 
   const currentViewStyle: React.CSSProperties = {
+    position: "absolute",
     top: `${scrollTop}px`,
+    left: "0",
+    width: "100%",
     height: `${height}px`,
+    backgroundColor: `#00FFD744`,
+    cursor: "grab",
   };
 
-  return (
-    <div
-      style={currentViewStyle}
-      className="absolute left-0 w-full bg-[#00FFD744] cursor-grab"
-    >
-      Overlay
-    </div>
-  );
+  return <div style={currentViewStyle}></div>;
 };

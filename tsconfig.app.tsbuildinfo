@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/minimap/minimap.tsx","./src/components/minimap/canvas/canvas.tsx","./src/components/minimap/overlay/overlay.tsx","./src/utils/renderlogic.ts"],"version":"5.6.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/minimap/minimap.tsx","./src/components/minimap/canvas/canvas.tsx","./src/components/minimap/overlay/overlay.tsx","./src/components/options/optionscontainer.tsx","./src/utils/renderlogic.ts"],"version":"5.6.3"}
