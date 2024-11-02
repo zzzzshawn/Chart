@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Canvas from "./Canvas/Canvas";
 import { Overlay } from "./Overlay/Overlay";
 
@@ -22,45 +22,54 @@ const Minimap = ({
     const mapContainer = minimapRef.current;
     if (!mapContainer) return;
 
-    // events to check mouse events
-    // when mouse is not clicked
-    window.addEventListener("mouseup", () => {
+    // Listen for mouse up event globally to stop dragging
+    const handleMouseUp = () => {
       mouseDown.current = false;
-    });
-    // fire when mouse is clicked inside map
-    mapContainer.addEventListener("mousedown", () => {
+    };
+
+    window.addEventListener("mouseup", handleMouseUp);
+
+    // Listen for mouse events within the minimap
+    const handleMouseDown = () => {
       mouseDown.current = true;
-    });
-    // if mouse is pressed and moved set drag position
-    mapContainer.addEventListener("mousemove", (e) => {
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
       if (mouseDown.current) {
         setDragPos(e.clientY);
       }
-    });
+    };
+
+    mapContainer.addEventListener("mousedown", handleMouseDown);
+    mapContainer.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+      mapContainer.removeEventListener("mousedown", handleMouseDown);
+      mapContainer.removeEventListener("mousemove", handleMouseMove);
+    };
   }, [setDragPos]);
 
-  // to manage position of scroll container
+  // Synchronize minimap scroll when the chat scrolls
   useEffect(() => {
     const mapContainer = minimapRef.current;
-    if (!mapContainer) return;
-    if (!scrollContainer) return;
+    if (!mapContainer || !scrollContainer) return;
+
+    const handleScroll = () => onScroll(mapContainer, scrollContainer);
+    scrollContainer.addEventListener("scroll", handleScroll);
+
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [refreshMap, scale, scrollContainer]);
+
+  // Synchronize main chat scroll when dragging minimap
+  useEffect(() => {
+    const mapContainer = minimapRef.current;
+    if (!mapContainer || !scrollContainer) return;
     onDrag(mapContainer, scrollContainer, scale, dragPos);
   }, [dragPos, scrollContainer, scale]);
 
-  useEffect(() => {
-    const minimapContainer = minimapRef.current;
-    if (!scrollContainer) return;
-    if (!minimapContainer) return;
-    scrollContainer.addEventListener("scroll", () =>
-      onScroll(minimapContainer, scrollContainer, scale)
-    );
-  }, [refreshMap, scale, scrollContainer]);
-
   return (
-    <div
-      ref={minimapRef}
-      style={minimapContainerStyle}
-    >
+    <div ref={minimapRef} style={minimapContainerStyle}>
       <Canvas
         refreshCanvas={refreshMap}
         chatContainer={chatContainer}
@@ -68,7 +77,7 @@ const Minimap = ({
       />
       <Overlay
         refreshCanvas={refreshMap}
-        scrolContainer={scrollContainer}
+        scrollContainer={scrollContainer}
         scale={scale}
       />
     </div>
@@ -82,13 +91,12 @@ const minimapContainerStyle: React.CSSProperties = {
   backgroundColor: "#343442",
   pointerEvents: "all",
   boxShadow: "0 0 20px rgba(0, 0, 0, 1)",
-  overflowY: "scroll",
-  scrollbarWidth: "none",
+  overflowY: "hidden", // hides scrollbar, use custom scroll logic
 };
 
 export default Minimap;
 
-// sets scroll for the main chat of gpt when i adjust scroll for minimap
+// Scrolls the main chat to match minimap position on drag
 const onDrag = (
   mapContainer: HTMLElement,
   scrollContainer: HTMLElement,
@@ -100,20 +108,14 @@ const onDrag = (
     (relativeMousePos + mapContainer.scrollTop) / scale -
     0.5 * scrollContainer.offsetHeight;
 
-  // scroll container should be at newscrollpos. 0 indicates no horizontal scroll
-  scrollContainer.scrollTo(0, newScrollPos);
+  scrollContainer.scrollTo({ top: newScrollPos, behavior: "smooth" });
 };
 
-// sets scroll for minimap when i scroll on main map
+// Synchronizes minimap position when the chat scrolls
 const onScroll = (
   minimapContainer: HTMLElement,
   scrollContainer: HTMLElement,
-  scale: number
 ) => {
-  const ratio =
-    scrollContainer.scrollTop /
-    (scrollContainer.scrollHeight + scrollContainer.offsetHeight);
-
-  minimapContainer.scrollTop =
-    scale * scrollContainer.scrollTop - ratio * minimapContainer.offsetHeight;
+  const scrollRatio = scrollContainer.scrollTop / (scrollContainer.scrollHeight - scrollContainer.clientHeight);
+  minimapContainer.scrollTop = scrollRatio * (minimapContainer.scrollHeight - minimapContainer.clientHeight);
 };
