@@ -1,11 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>hello</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart - v1.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      body {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: #101010;
+        color: white;
+        width: 250px;
+        height: fit-content;
+        font-size: 10px;
+      }
+
+      @import url("https://fonts.googleapis.com/css2?family=Hedvig+Letters+Sans&display=swap");
+      .hedvig-sans {
+        font-family: "Hedvig Letters Sans", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .main {
+        /* border: 1px solid; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo{
+        width: 80%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        border-bottom: 1px solid #ffffff30;
+        text-align: center;
+      }
+
+      .logo img{
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+      }
+
+      .desc{
+        color: #ffffff;
+        opacity: 0.8;
+        font-size: 15px;
+      }
+
+      .preview{
+        text-align: center;
+        font-size: 8px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .preview img {
+        object-fit: contain;
+        max-width: 200px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+
+      .preview h4{
+        margin: 3px;
+        font-size: 12px;
+      }
+
+      .preview h6{
+        margin: 0;
+        font-size: 10px;
+      }
+
+      .note{
+        margin: 12px;
+      }
+
+      .note h3{
+        margin: 3px;
+        font-size: 12px;
+        width: 60%;
+        margin: auto;
+      }
+
+      .troubleshoot{
+        width: 60%;
+      }
+
+      .troubleshoot h3{
+        margin: 3px;
+        font-size: 12px;
+      }
+      
+      .footer{
+        border-top: 1px solid #ffffff30;
+        width: 70%;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px;
+        gap: 5px;
+      }
+      .footer a {
+        color: white;
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 20px;
+      }
+
+      .footer a:hover{
+        background: #ffffff40;
+        transition: all;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="hedvig-sans main">
+        <div class="logo">
+            <img src="./llogo.png" alt="logo">
+            <h1>CHART v1.0</h1>
+        </div>
+        <div class="desc">
+            <h4>A MiniMap for ChatGPT</h5>
+        </div>
+        <div class="preview hedvig-sans">
+            <h4>Getting Started:</h5>
+            <h6>After installing CHART it should be AUTOMATICALLY available at the TOP RIGHT position of your screen</h4>
+            <img src="./pointer.png" alt="pointer">
+        </div>
+        <div class="note">
+            <h3>Note</h3>
+            <h3>- This extension only works for <a href="https://chatgpt.com/">chatgpt.com</a> </h3>
+            <h3></h3>
+        </div>
+        <div class="troubleshoot">
+            <h3>TroubleShooting</h3>
+            <h3>- Use the Refresh button in case the map does not load properly</h3>
+            <h3>- Reload the page if Refresh does not work</h3>
+        </div>
+        <div class="footer">
+            <div class="github">
+                <a target="_blank" href="https://github.com/zzzzshawn/Chart">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <div class="github">
+                <a target="_blank" href="https://x.com/zzzzshawn">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <div class="github">
+                <a target="_blank" href="https://x.com/zzzzshawn">
+                    <i class="fas fa-pen-nib"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+  </body>
 </html>
