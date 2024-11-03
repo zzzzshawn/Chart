@@ -40,7 +40,7 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer, onRefreshMinimap }: Ca
       canvas.style.height = `${scale * canvas.offsetHeight}px`;
       setScale(canvas.offsetHeight / chatContainer.offsetHeight);
     })();
-  }, [refreshCanvas, setScale, chatContainer, window.location.pathname]);
+  }, [refreshCanvas, setScale, chatContainer, onRefreshMinimap]);
 
   return <div ref={canvasRef} style={canvasContainerStyle}></div>;
 };

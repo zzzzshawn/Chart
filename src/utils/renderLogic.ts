@@ -22,17 +22,11 @@ export const generateMapCanvas = (elementToRender: HTMLElement): Promise<HTMLCan
             if(chatWidth === 0){
                 element.style.width = "fit-content";
             }
-
-            // color for user chat
-            element.querySelectorAll('[data-message-author-role="user"]').forEach((k)=> {
-                const j = k as HTMLElement;
-                j.style.backgroundColor = "white";
-            })
         },
         ignoreElements: (element) => element.classList.contains('top-0'), // igonore the navbar
         scrollX: 0,
         scrollY: 0,
-        scale: 0.2, // adjust bluryness
+        scale: 0.3, // adjust bluryness
         backgroundColor: backgroundColor
     };
     return html2canvas(elementToRender, renderOptions);
@@ -63,17 +57,17 @@ export const queryChatScrollContainer = (): HTMLElement | null  => {
     return scrollContainer;
 }
 
-// return all chat
-export const queryAllChatElements = (): HTMLElement[] => {
-    const allChat: HTMLElement[] = [...document.querySelectorAll('[data-testid^="conversation-turn-"]')] as HTMLElement[]
+// // return all chat
+// export const queryAllChatElements = (): HTMLElement[] => {
+//     const allChat: HTMLElement[] = [...document.querySelectorAll('[data-testid^="conversation-turn-"]')] as HTMLElement[]
 
-    return allChat
-}
+//     return allChat
+// }
 
-// return 1st child of chatContainer or null
-export const queryNavElement = (): HTMLElement | null => {
-    const chatContainer = queryChatContainer();
-    if(!chatContainer || chatContainer.childNodes.length === 0) return null;
+// // return 1st child of chatContainer or null
+// export const queryNavElement = (): HTMLElement | null => {
+//     const chatContainer = queryChatContainer();
+//     if(!chatContainer || chatContainer.childNodes.length === 0) return null;
 
-    return chatContainer.childNodes[0] as HTMLElement
-}
+//     return chatContainer.childNodes[0] as HTMLElement
+// }

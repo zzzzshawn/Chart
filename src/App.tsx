@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  queryAllChatElements,
   queryChatContainer,
-  queryNavElement,
 } from "./utils/renderLogic";
 import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
@@ -53,8 +51,6 @@ function App() {
       <OptionsContainer
         onToggleMinimap={toggleMap}
         onRefreshMinimap={refreshMap}
-        onNextChat={() => onNextChat(scrollContainer.current)}
-        onPreviousChat={() => onPreviousChat(scrollContainer.current)}
         showMinimap={showMinimap}
       />
       {showMinimap && (
@@ -94,41 +90,4 @@ const addLocationObserver = (callback: MutationCallback) => {
 
   // start observing document.body with the given config
   observer.observe(document.body, config);
-};
-
-const onNextChat = (scrollContainer: HTMLElement | null) => {
-  const navElement = queryNavElement();
-  if (!scrollContainer || !navElement) return;
-  const navHeight = navElement.offsetHeight;
-  const chatElements = queryAllChatElements();
-  const nextChats = chatElements.filter((element) => {
-    return element.getBoundingClientRect().top > 1.1 * navHeight;
-  });
-  if (nextChats.length === 0) return;
-  const firstNextChat = nextChats[0];
-  scrollContainer.scrollTo({
-    top:
-      scrollContainer.scrollTop +
-      firstNextChat.getBoundingClientRect().top -
-      navHeight,
-    behavior: "smooth",
-  });
-};
-const onPreviousChat = (scrollContainer: HTMLElement | null) => {
-  const navElement = queryNavElement();
-  if (!scrollContainer || !navElement) return;
-  const navHeight = navElement.offsetHeight;
-  const chatElements = queryAllChatElements();
-  const nextChats = chatElements.filter((element) => {
-    return element.getBoundingClientRect().top < navHeight;
-  });
-  if (nextChats.length === 0) return;
-  const firstNextChat = nextChats[nextChats.length - 1];
-  scrollContainer.scrollTo({
-    top:
-      scrollContainer.scrollTop +
-      firstNextChat.getBoundingClientRect().top -
-      navHeight,
-    behavior: "smooth",
-  });
 };

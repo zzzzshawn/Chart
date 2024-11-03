@@ -1,4 +1,4 @@
-import { BiDownArrow, BiRefresh, BiUpArrow } from "react-icons/bi";
+import { BiRefresh } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 // import { HiMiniMap } from "react-icons/hi2";
 
@@ -6,16 +6,12 @@ import { CgClose } from "react-icons/cg";
 interface OptionsContainerProps {
   onToggleMinimap: CallableFunction;
   onRefreshMinimap: CallableFunction;
-  onNextChat: CallableFunction;
-  onPreviousChat: CallableFunction;
   showMinimap: boolean;
 }
 
 export default function OptionsContainer({
   onToggleMinimap,
   onRefreshMinimap,
-  onNextChat,
-  onPreviousChat,
   showMinimap,
 }: OptionsContainerProps) {
   return (
@@ -27,12 +23,6 @@ export default function OptionsContainer({
         <>
           <button onClick={() => onRefreshMinimap()} style={buttonStyle}>
             <BiRefresh />
-          </button>
-          <button onClick={() => onPreviousChat()} style={buttonStyle}>
-            <BiUpArrow />
-          </button>
-          <button onClick={() => onNextChat()} style={buttonStyle}>
-            <BiDownArrow />
           </button>
         </>
       ) : null}
