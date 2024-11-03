@@ -17,27 +17,32 @@ function App() {
   };
 
   useEffect(() => {
-    addLocationObserver(() => {
-      setTimeout(() => {
-        const newChat = queryChatContainer();
-        if (chatContainer !== newChat) {
+    const observeChatIdChange = () => {
+      const currentChatId = window.location.pathname; 
+      const observer = new MutationObserver(() => {
+        const newChatId = window.location.pathname;
+        if (currentChatId !== newChatId) {
           triggerRefresh();
         }
-        setChatContainer(newChat);
-        if (newChat) {
-          setScrollContainer(newChat.parentElement);
-        } else {
-          setScrollContainer(null);
-        }
-      }, 500);
-    });
-  }, [chatContainer]);
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      return () => {
+        observer.disconnect();
+      };
+    };
+
+    observeChatIdChange();
+  }, []);
 
   const toggleMap = () => {
     setShowMinimap((prev) => !prev);
     triggerRefresh();
   };
-
 
   return (
     <div style={appContainerStyle}>
@@ -70,14 +75,3 @@ const appContainerStyle: React.CSSProperties = {
 
 export default App;
 
-const addLocationObserver = (callback: MutationCallback) => {
-  const config = {
-    attributes: false,
-    childList: true,
-    subtree: false,
-  };
-
-  const observer = new MutationObserver(callback);
-
-  observer.observe(document.body, config);
-};
