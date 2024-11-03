@@ -1,19 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { queryChatContainer } from "./utils/renderLogic";
 import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
 
 function App() {
   const [showMinimap, setShowMinimap] = useState<boolean>(false); 
-  const [manualRefresh, setManualRefresh] = useState<boolean>(false); 
-  const chatContainer = useRef<HTMLElement | null>(null); 
-  const scrollContainer = useRef<HTMLElement | null>(null);
+  const [chatContainer, setChatContainer] = useState<HTMLElement | null>(null); 
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
 
   const triggerRefresh = () => {
-    setManualRefresh((prev) => !prev);
-    chatContainer.current = queryChatContainer();
-    if (chatContainer.current) {
-      scrollContainer.current = chatContainer.current.parentElement;
+    const newChatContainer = queryChatContainer();
+    setChatContainer(newChatContainer);
+    if (newChatContainer) {
+      setScrollContainer(newChatContainer.parentElement);
     }
   };
 
@@ -21,39 +20,37 @@ function App() {
     addLocationObserver(() => {
       setTimeout(() => {
         const newChat = queryChatContainer();
-        if (chatContainer.current !== newChat) {
+        if (chatContainer !== newChat) {
           triggerRefresh();
         }
-        chatContainer.current = newChat;
+        setChatContainer(newChat);
         if (newChat) {
-          scrollContainer.current = newChat.parentElement;
+          setScrollContainer(newChat.parentElement);
+        } else {
+          setScrollContainer(null);
         }
       }, 500);
     });
-  }, []);
+  }, [chatContainer]);
 
   const toggleMap = () => {
     setShowMinimap((prev) => !prev);
     triggerRefresh();
   };
 
-  const refreshMap = () => {
-    triggerRefresh();
-  };
 
   return (
     <div style={appContainerStyle}>
       <OptionsContainer
         onToggleMinimap={toggleMap}
-        onRefreshMinimap={refreshMap}
+        onRefreshMinimap={triggerRefresh}
         showMinimap={showMinimap}
       />
       {showMinimap && (
         <Minimap
-          onRefreshMinimap={refreshMap}
-          refreshMap={manualRefresh}
-          chatContainer={chatContainer.current}
-          scrollContainer={scrollContainer.current}
+          onRefreshMinimap={triggerRefresh}
+          chatContainer={chatContainer}
+          scrollContainer={scrollContainer}
         />
       )}
     </div>

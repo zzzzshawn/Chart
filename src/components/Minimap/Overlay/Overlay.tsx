@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 
 interface OverlayProps {
-  refreshCanvas: boolean;
   scale: number;
   scrollContainer: HTMLElement | null;
 }
 
 export const Overlay = ({
-  refreshCanvas,
   scale,
   scrollContainer,
 }: OverlayProps) => {
@@ -64,7 +62,7 @@ export const Overlay = ({
         updateOverlayPosition(scrollContainer.scrollTop)
       );
     };
-  }, [scale, refreshCanvas, scrollContainer]);
+  }, [scale, scrollContainer]);
 
   const currentViewStyle: React.CSSProperties = {
     position: "absolute",

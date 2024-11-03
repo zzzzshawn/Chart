@@ -3,14 +3,12 @@ import Canvas from "./Canvas/Canvas";
 import { Overlay } from "./Overlay/Overlay";
 
 interface MiniMapProps {
-  refreshMap: boolean;
   chatContainer: HTMLElement | null;
   scrollContainer: HTMLElement | null;
   onRefreshMinimap: CallableFunction;
 }
 
 const Minimap = ({
-  refreshMap,
   chatContainer,
   scrollContainer,
   onRefreshMinimap,
@@ -57,7 +55,7 @@ const Minimap = ({
     scrollContainer.addEventListener("scroll", handleScroll);
 
     return () => scrollContainer.removeEventListener("scroll", handleScroll);
-  }, [refreshMap, scale, scrollContainer]);
+  }, [scale, scrollContainer]);
 
   useEffect(() => {
     const mapContainer = minimapRef.current;
@@ -68,13 +66,11 @@ const Minimap = ({
   return (
     <div ref={minimapRef} style={minimapContainerStyle}>
       <Canvas
-        refreshCanvas={refreshMap}
         chatContainer={chatContainer}
         setScale={setScale}
         onRefreshMinimap={onRefreshMinimap}
       />
       <Overlay
-        refreshCanvas={refreshMap}
         scrollContainer={scrollContainer}
         scale={scale}
       />
