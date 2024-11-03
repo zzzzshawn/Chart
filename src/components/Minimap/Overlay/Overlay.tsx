@@ -11,12 +11,12 @@ export const Overlay = ({
   scale,
   scrollContainer,
 }: OverlayProps) => {
-  const [scrollTop, setScrollTop] = useState(0);  // Top position of the overlay
-  const [height, setHeight] = useState(0);  // Height of the overlay (based on scale)
+  const [scrollTop, setScrollTop] = useState(0);  
+  const [height, setHeight] = useState(0);  
   const overlayRef = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false); // Flag to indicate if dragging is in progress
-  const startY = useRef(0); // Starting Y position for the drag
-  const startScrollTop = useRef(0); // Initial scroll top when the drag starts
+  const isDragging = useRef(false); 
+  const startY = useRef(0); 
+  const startScrollTop = useRef(0); 
 
   const updateOverlayPosition = (scrollPosition: number) => {
     setScrollTop(scrollPosition * scale);
@@ -26,15 +26,12 @@ export const Overlay = ({
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging.current || !scrollContainer) return;
 
-    // Calculate dynamic drag factor based on content height
     const scrollableHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
     const dragFactor = scrollableHeight > 0 ? scrollableHeight / scrollContainer.clientHeight : 1;
 
-    // Calculate the new scroll position with the dynamic factor
     const deltaY = (e.clientY - startY.current) * dragFactor;
     const newScrollTop = startScrollTop.current + deltaY;
 
-    // Apply new scroll position and update overlay position
     scrollContainer.scrollTo(0, newScrollTop);
     updateOverlayPosition(scrollContainer.scrollTop);
   };
@@ -83,7 +80,7 @@ export const Overlay = ({
     <div
       ref={overlayRef}
       style={currentViewStyle}
-      onMouseDown={handleMouseDown} // Initiate drag on mouse down
+      onMouseDown={handleMouseDown} 
     ></div>
   );
 };

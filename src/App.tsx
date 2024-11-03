@@ -4,12 +4,11 @@ import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
 
 function App() {
-  const [showMinimap, setShowMinimap] = useState<boolean>(false); // minimap trigger
-  const [manualRefresh, setManualRefresh] = useState<boolean>(false); // trigger manual refresh
-  const chatContainer = useRef<HTMLElement | null>(null); // DOM of chat container
-  const scrollContainer = useRef<HTMLElement | null>(null); // DOM of scroll container
+  const [showMinimap, setShowMinimap] = useState<boolean>(false); 
+  const [manualRefresh, setManualRefresh] = useState<boolean>(false); 
+  const chatContainer = useRef<HTMLElement | null>(null); 
+  const scrollContainer = useRef<HTMLElement | null>(null);
 
-  // refresh the map canvas
   const triggerRefresh = () => {
     setManualRefresh((prev) => !prev);
     chatContainer.current = queryChatContainer();
@@ -19,19 +18,17 @@ function App() {
   };
 
   useEffect(() => {
-    // checks if there are changes to chat or if switched to a different chat
     addLocationObserver(() => {
       setTimeout(() => {
         const newChat = queryChatContainer();
         if (chatContainer.current !== newChat) {
           triggerRefresh();
         }
-        // to ensure accurate reference
         chatContainer.current = newChat;
         if (newChat) {
           scrollContainer.current = newChat.parentElement;
         }
-      }, 500); // delay execution to let chats load
+      }, 500);
     });
   }, []);
 
@@ -76,9 +73,7 @@ const appContainerStyle: React.CSSProperties = {
 
 export default App;
 
-// observes child changes in document.body
 const addLocationObserver = (callback: MutationCallback) => {
-  // what changes observer should observe
   const config = {
     attributes: false,
     childList: true,
@@ -87,6 +82,5 @@ const addLocationObserver = (callback: MutationCallback) => {
 
   const observer = new MutationObserver(callback);
 
-  // start observing document.body with the given config
   observer.observe(document.body, config);
 };

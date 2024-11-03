@@ -15,23 +15,20 @@ const Minimap = ({
   scrollContainer,
   onRefreshMinimap,
 }: MiniMapProps) => {
-  const [scale, setScale] = useState<number>(0); // sets scale of minimap
-  const [dragPos, setDragPos] = useState<number>(0); // vertical mouse position
-  const minimapRef = useRef<HTMLDivElement>(null); // ref to minimap container
-  const mouseDown = useRef<boolean>(false); // if mouse is clicked and held
-
+  const [scale, setScale] = useState<number>(0); 
+  const [dragPos, setDragPos] = useState<number>(0); 
+  const minimapRef = useRef<HTMLDivElement>(null); 
+  const mouseDown = useRef<boolean>(false); 
   useEffect(() => {
     const mapContainer = minimapRef.current;
     if (!mapContainer) return;
 
-    // Listen for mouse up event globally to stop dragging
     const handleMouseUp = () => {
       mouseDown.current = false;
     };
 
     window.addEventListener("mouseup", handleMouseUp);
 
-    // Listen for mouse events within the minimap
     const handleMouseDown = () => {
       mouseDown.current = true;
     };
@@ -52,7 +49,6 @@ const Minimap = ({
     };
   }, [setDragPos]);
 
-  // Synchronize minimap scroll when the chat scrolls
   useEffect(() => {
     const mapContainer = minimapRef.current;
     if (!mapContainer || !scrollContainer) return;
@@ -63,7 +59,6 @@ const Minimap = ({
     return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, [refreshMap, scale, scrollContainer]);
 
-  // Synchronize main chat scroll when dragging minimap
   useEffect(() => {
     const mapContainer = minimapRef.current;
     if (!mapContainer || !scrollContainer) return;
@@ -93,12 +88,11 @@ const minimapContainerStyle: React.CSSProperties = {
   height: "90vh",
   backgroundColor: "#00000000",
   pointerEvents: "all",
-  overflowY: "hidden", // hides scrollbar, use custom scroll logic
+  overflowY: "hidden",
 };
 
 export default Minimap;
 
-// Scrolls the main chat to match minimap position on drag
 const onDrag = (
   mapContainer: HTMLElement,
   scrollContainer: HTMLElement,
@@ -113,7 +107,6 @@ const onDrag = (
   scrollContainer.scrollTo({ top: newScrollPos, behavior: "smooth" });
 };
 
-// Synchronizes minimap position when the chat scrolls
 const onScroll = (
   minimapContainer: HTMLElement,
   scrollContainer: HTMLElement,

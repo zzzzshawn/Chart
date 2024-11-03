@@ -17,10 +17,6 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer, onRefreshMinimap }: Ca
     (async () => {
       const canvasContainer = canvasRef.current;
       if (!canvasContainer) return;
-      if (canvasContainer.parentElement) {
-        // scroll to top to display message
-        canvasContainer.parentElement.scrollTo(0, 0);
-      }
       if (!chatContainer) {
           onRefreshMinimap();
         return;
