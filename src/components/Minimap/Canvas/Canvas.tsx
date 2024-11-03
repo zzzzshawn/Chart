@@ -17,14 +17,23 @@ const Canvas = ({ setScale, chatContainer, onRefreshMinimap }: CanvasProps) => {
       const canvasContainer = canvasRef.current;
       if (!canvasContainer) return;
       if (!chatContainer) {
-          onRefreshMinimap();
+        onRefreshMinimap();
         return;
       }
+
       isLoading.current = true;
-      // console.log("generating minmiap canvas...")
-      canvasContainer.innerHTML = "loading..";
+
+      canvasContainer.innerHTML = ""; 
+      const loaderDiv = document.createElement("div");
+      loaderDiv.className = "loader-container";
+      const spinner = document.createElement("div");
+      spinner.className = "spinner";
+      loaderDiv.appendChild(spinner);
+      canvasContainer.appendChild(loaderDiv);
+
       const canvas = await generateMapCanvas(chatContainer);
       isLoading.current = false;
+
       canvasContainer.innerHTML = "";
       canvasContainer.appendChild(canvas);
 
@@ -43,5 +52,29 @@ const canvasContainerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "white",
 };
+
+const spinnerStyle = document.createElement("style");
+spinnerStyle.innerHTML = `
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+  }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+document.head.appendChild(spinnerStyle);
 
 export default memo(Canvas);
