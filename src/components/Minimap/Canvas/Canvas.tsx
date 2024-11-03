@@ -22,8 +22,6 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer, onRefreshMinimap }: Ca
         canvasContainer.parentElement.scrollTo(0, 0);
       }
       if (!chatContainer) {
-        canvasContainer.innerHTML =
-          "No chat detected, try refreshing the minimap";
           onRefreshMinimap();
         return;
       }
@@ -47,8 +45,8 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer, onRefreshMinimap }: Ca
 
 const canvasContainerStyle: React.CSSProperties = {
   width: "100%",
+  textAlign: "center",
   color: "white",
-  fontWeight: "bold",
 };
 
 export default memo(Canvas);

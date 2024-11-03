@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@types/chrome": "^0.0.280",
     "@types/node": "^22.8.1",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",

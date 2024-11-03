@@ -26,7 +26,7 @@ export const generateMapCanvas = (elementToRender: HTMLElement): Promise<HTMLCan
         ignoreElements: (element) => element.classList.contains('top-0'), // igonore the navbar
         scrollX: 0,
         scrollY: 0,
-        scale: 0.3, // adjust bluryness
+        scale: 0.2, // adjust bluryness
         backgroundColor: backgroundColor
     };
     return html2canvas(elementToRender, renderOptions);

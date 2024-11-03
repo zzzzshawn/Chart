@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  queryChatContainer,
-} from "./utils/renderLogic";
+import { queryChatContainer } from "./utils/renderLogic";
 import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
 
@@ -67,6 +65,7 @@ function App() {
 
 const appContainerStyle: React.CSSProperties = {
   display: "flex",
+  gap: "0.25em",
   height: "100%",
   width: "100%",
   overflow: "hidden",

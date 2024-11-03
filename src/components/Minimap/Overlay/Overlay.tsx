@@ -75,7 +75,7 @@ export const Overlay = ({
     left: "0",
     width: "100%",
     height: `${height}px`,
-    backgroundColor: `#00FFD744`,
+    backgroundColor: `#ffffff20`,
     cursor: isDragging.current ? "grabbing" : "grab",
   };
 

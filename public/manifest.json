@@ -20,12 +20,12 @@
       "resources": [
         "/react/index.js",
         "/react/index.css",
-        "vite.svg"
+        "llogo.png"
       ],
       "matches": ["https://chatgpt.com/*"]
     }
   ],
   "icons": {
-    "128": "vite.svg"
+    "128": "llogo.png"
   }
 }

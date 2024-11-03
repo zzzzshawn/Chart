@@ -91,9 +91,8 @@ const minimapContainerStyle: React.CSSProperties = {
   position: "relative",
   width: "80px",
   height: "90vh",
-  backgroundColor: "#343442",
+  backgroundColor: "#00000000",
   pointerEvents: "all",
-  boxShadow: "0 0 20px rgba(0, 0, 0, 1)",
   overflowY: "hidden", // hides scrollbar, use custom scroll logic
 };
 
