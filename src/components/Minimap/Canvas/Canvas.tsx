@@ -17,7 +17,6 @@ const Canvas = ({ setScale, chatContainer, onRefreshMinimap }: CanvasProps) => {
       const canvasContainer = canvasRef.current;
       if (!canvasContainer) return;
       if (!chatContainer) {
-        onRefreshMinimap();
         return;
       }
 
@@ -62,9 +61,9 @@ spinnerStyle.innerHTML = `
     height: 90vh;
   }
   .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
+    width: 25px;
+    height: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     border-top-color: white;
     animation: spin 0.8s linear infinite;

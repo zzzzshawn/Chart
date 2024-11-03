@@ -4,9 +4,11 @@ import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
 
 function App() {
-  const [showMinimap, setShowMinimap] = useState<boolean>(false); 
-  const [chatContainer, setChatContainer] = useState<HTMLElement | null>(null); 
-  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+  const [showMinimap, setShowMinimap] = useState<boolean>(false);
+  const [chatContainer, setChatContainer] = useState<HTMLElement | null>(null);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(
+    null
+  );
 
   const triggerRefresh = () => {
     const newChatContainer = queryChatContainer();
@@ -18,12 +20,8 @@ function App() {
 
   useEffect(() => {
     const observeChatIdChange = () => {
-      const currentChatId = window.location.pathname; 
       const observer = new MutationObserver(() => {
-        const newChatId = window.location.pathname;
-        if (currentChatId !== newChatId) {
-          triggerRefresh();
-        }
+        triggerRefresh();
       });
 
       observer.observe(document.body, {
@@ -44,16 +42,26 @@ function App() {
     triggerRefresh();
   };
 
+  const refreshMap = () => {
+    setShowMinimap(false); 
+    setChatContainer(null);
+    setScrollContainer(null);
+    setTimeout(() => {
+      triggerRefresh(); 
+      setShowMinimap(true); 
+    }, 100); 
+  };
+
   return (
     <div style={appContainerStyle}>
       <OptionsContainer
         onToggleMinimap={toggleMap}
-        onRefreshMinimap={triggerRefresh}
+        onRefreshMinimap={refreshMap}
         showMinimap={showMinimap}
       />
       {showMinimap && (
         <Minimap
-          onRefreshMinimap={triggerRefresh}
+          onRefreshMinimap={refreshMap}
           chatContainer={chatContainer}
           scrollContainer={scrollContainer}
         />
@@ -74,4 +82,3 @@ const appContainerStyle: React.CSSProperties = {
 };
 
 export default App;
-
