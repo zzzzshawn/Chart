@@ -5,9 +5,10 @@ interface CanvasProps {
   refreshCanvas: boolean;
   setScale: CallableFunction;
   chatContainer: HTMLElement | null;
+  onRefreshMinimap: CallableFunction;
 }
 
-const Canvas = ({ refreshCanvas, setScale, chatContainer }: CanvasProps) => {
+const Canvas = ({ refreshCanvas, setScale, chatContainer, onRefreshMinimap }: CanvasProps) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const isLoading = useRef<boolean>(false);
 
@@ -23,6 +24,7 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer }: CanvasProps) => {
       if (!chatContainer) {
         canvasContainer.innerHTML =
           "No chat detected, try refreshing the minimap";
+          onRefreshMinimap();
         return;
       }
       isLoading.current = true;
@@ -38,7 +40,7 @@ const Canvas = ({ refreshCanvas, setScale, chatContainer }: CanvasProps) => {
       canvas.style.height = `${scale * canvas.offsetHeight}px`;
       setScale(canvas.offsetHeight / chatContainer.offsetHeight);
     })();
-  }, [refreshCanvas, setScale, chatContainer]);
+  }, [refreshCanvas, setScale, chatContainer, window.location.pathname]);
 
   return <div ref={canvasRef} style={canvasContainerStyle}></div>;
 };

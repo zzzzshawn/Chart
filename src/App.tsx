@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { queryAllChatElements, queryChatContainer, queryNavElement } from "./utils/renderLogic";
+import {
+  queryAllChatElements,
+  queryChatContainer,
+  queryNavElement,
+} from "./utils/renderLogic";
 import Minimap from "./components/Minimap/Minimap";
 import OptionsContainer from "./components/Options/OptionsContainer";
 
@@ -55,6 +59,7 @@ function App() {
       />
       {showMinimap && (
         <Minimap
+          onRefreshMinimap={refreshMap}
           refreshMap={manualRefresh}
           chatContainer={chatContainer.current}
           scrollContainer={scrollContainer.current}
@@ -76,7 +81,6 @@ const appContainerStyle: React.CSSProperties = {
 
 export default App;
 
-
 // observes child changes in document.body
 const addLocationObserver = (callback: MutationCallback) => {
   // what changes observer should observe
@@ -91,8 +95,6 @@ const addLocationObserver = (callback: MutationCallback) => {
   // start observing document.body with the given config
   observer.observe(document.body, config);
 };
-
-
 
 const onNextChat = (scrollContainer: HTMLElement | null) => {
   const navElement = queryNavElement();

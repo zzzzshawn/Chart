@@ -6,12 +6,14 @@ interface MiniMapProps {
   refreshMap: boolean;
   chatContainer: HTMLElement | null;
   scrollContainer: HTMLElement | null;
+  onRefreshMinimap: CallableFunction;
 }
 
 const Minimap = ({
   refreshMap,
   chatContainer,
   scrollContainer,
+  onRefreshMinimap,
 }: MiniMapProps) => {
   const [scale, setScale] = useState<number>(0); // sets scale of minimap
   const [dragPos, setDragPos] = useState<number>(0); // vertical mouse position
@@ -74,6 +76,7 @@ const Minimap = ({
         refreshCanvas={refreshMap}
         chatContainer={chatContainer}
         setScale={setScale}
+        onRefreshMinimap={onRefreshMinimap}
       />
       <Overlay
         refreshCanvas={refreshMap}
